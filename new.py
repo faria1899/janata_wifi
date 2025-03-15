@@ -1,7 +1,10 @@
 from flask import Flask,request,jsonify
 import mysql.connector
+from flask_cors import CORS
+
 
 app = Flask(__name__)
+CORS(app)
 
 #DATABASE CONNECTION
 db = mysql.connector.connect(
@@ -144,6 +147,38 @@ def fetch_range(start_id, end_id):
         print(f"Error: {str(e)}")
         
         return jsonify({"error": str(e)}), 500
+
+
+
+
+ #FETCH LAST 15 DATA
+ 
+@app.route('/fetch/latest', methods=['GET'])
+
+def fetch_latest():
+     try:
+         cursor = db.cursor(dictionary=True)
+
+         query = """
+             SELECT * FROM stock_data
+             ORDER BY id DESC
+             LIMIT 15
+         """
+
+         cursor.execute(query)
+         rows = cursor.fetchall()
+
+         cursor.close()
+
+         if rows:
+             return jsonify(rows), 200
+         else:
+             return jsonify({"error": "No records found"}), 404
+
+     except mysql.connector.Error as e:
+         print(f"Error: {str(e)}")
+         return jsonify({"error": str(e)}), 500
+
 
     
 #FETCH ALL
