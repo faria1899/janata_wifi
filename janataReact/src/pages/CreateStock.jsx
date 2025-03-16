@@ -1,85 +1,75 @@
-import React, { useState  } from "react";
+import React, { useState } from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Modal, Button } from "react-bootstrap";
 
 export default function CreateStock() {
+  const navigate = useNavigate();
+  const [inputs, setInputs] = useState({});
+  const [showModal, setShowModal] = useState(false);
 
-const navigate = useNavigate();
-const [inputs, setInputs] = useState([]);
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setInputs((values) => ({ ...values, [name]: value }));
+  };
 
-
-
-const handleChange = (event) =>{
-    const name = event.target.name
-    const value = event.target.value
-    setInputs(values => ({...values, [name]: value}));
-
-}
-
-
-const handleSubmit = (event) =>{
-
+  const handleSubmit = (event) => {
     event.preventDefault();
-    axios.post('http://127.0.0.1:5001/InsertData', inputs).then(function(response){
-        console.log(response.data);
-         navigate('/');
+    axios.post("http://127.0.0.1:5001/InsertData", inputs).then((response) => {
+      console.log(response.data);
+      setShowModal(true);
+    });
+  };
 
-        });
-
-}
-
-
-
+  const handleClose = () => {
+    setShowModal(false);
+    navigate("/");
+  };
 
   return (
-    <div>
-        <div className="container h-100">
-            <div className="row">
-                <div className="col-2"></div>
-                <div className="col-8">
-                <h1>Create Stock</h1>
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-3">
-                      <label>Trade Date</label>
-                      <input type="date" className="form-control" name="date" onChange={handleChange} />
-                    </div>
-                    <div className="mb-3">
-                      <label>Trade Code</label>
-                      <input type="text" className="form-control" name="trade_code" onChange={handleChange} />
-                    </div>  
-
-                     <div className="mb-3">
-                      <label>High</label>
-                      <input type="text" className="form-control" name="high" onChange={handleChange} />
-                    </div> 
-
-                    <div className="mb-3">
-                      <label>Low</label>
-                      <input type="text" className="form-control" name="low" onChange={handleChange} />
-                    </div> 
-
-                    <div className="mb-3">
-                      <label>Opening Price</label>
-                      <input type="text" className="form-control" name="open" onChange={handleChange} />
-                    </div> 
-
-                    <div className="mb-3">
-                      <label>Closing Price</label>
-                      <input type="text" className="form-control" name="close" onChange={handleChange} />
-                    </div> 
-
-                    <div className="mb-3">
-                      <label>Volume</label>
-                      <input type="text" className="form-control" name="volume" onChange={handleChange} />
-                    </div> 
-
-
-                    <button type="submit" name="add" className="btn btn-primary">Save</button>
-                </form>
-                </div>
-                <div className="col-2"></div>
+    <div className="container d-flex justify-content-center align-items-center min-vh-100" style={{ backgroundColor: "#f0f8ff" }}>
+      <div className="card shadow-lg p-4" style={{ width: "50%", borderRadius: "12px", backgroundColor: "#ffffff" }}>
+        <h2 className="text-center mb-4" style={{ color: "#007bff" }}>Create Stock</h2>
+        <form onSubmit={handleSubmit}>
+          {[
+            { label: "Trade Date", type: "date", name: "date" },
+            { label: "Trade Code", type: "text", name: "trade_code" },
+            { label: "High", type: "text", name: "high" },
+            { label: "Low", type: "text", name: "low" },
+            { label: "Opening Price", type: "text", name: "open" },
+            { label: "Closing Price", type: "text", name: "close" },
+            { label: "Volume", type: "text", name: "volume" },
+          ].map((field, index) => (
+            <div className="mb-3" key={index}>
+              <label className="form-label fw-bold" style={{ color: "#333" }}>{field.label}</label>
+              <input
+                type={field.type}
+                className="form-control"
+                name={field.name}
+                onChange={handleChange}
+                required
+                style={{ borderColor: "#007bff" }}
+              />
             </div>
-        </div>
+          ))}
+          <div className="d-grid">
+            <button type="submit" className="btn btn-primary btn-lg shadow-sm" style={{ backgroundColor: "#007bff", borderColor: "#0056b3" }}>Save</button>
+          </div>
+        </form>
+      </div>
+
+     
+      <Modal show={showModal} onHide={handleClose} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Success</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Stock has been added successfully!</Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleClose}>OK</Button>
+        </Modal.Footer>
+      </Modal>
     </div>
-  )
+  );
 }
