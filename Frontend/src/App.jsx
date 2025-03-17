@@ -11,7 +11,7 @@ function App() {
     <div className="vh-100 gradient-custom">
     <div className="container">
     <h1 className="header">
-      React-JS & Python Flask CRUD with MySQL
+      Janata Wi-Fi Stock Market Data Analysis
     </h1>
     
       <BrowserRouter>
