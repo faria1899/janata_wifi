@@ -191,7 +191,9 @@ def fetch_All():
        
         cursor = db.cursor(dictionary=True)
         
-        cursor.execute("SELECT * FROM stock_data")
+        query = """SELECT  id, DATE_FORMAT(date, '%a, %d %b %Y') AS date, trade_code, high, low, open, close, volume FROM stock_data ORDER BY date desc;"""
+        
+        cursor.execute(query)
         
         rows = cursor.fetchall()
         

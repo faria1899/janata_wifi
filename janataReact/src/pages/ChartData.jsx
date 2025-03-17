@@ -33,7 +33,7 @@ const ChartData = () => {
   const [selectedTradeCode, setSelectedTradeCode] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
-  const [visualizationType, setVisualizationType] = useState("multiAxis"); // State to manage visualization type
+  const [visualizationType, setVisualizationType] = useState("multiAxis"); 
 
   useEffect(() => {
     fetchData();
@@ -65,7 +65,7 @@ const ChartData = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  // Data for the line chart (close prices)
+  // Data for the line chart close prices
   const lineChartData = {
     labels: filteredData.map((item) => item.date), 
     datasets: [
@@ -79,7 +79,7 @@ const ChartData = () => {
     ],
   };
 
-  // Data for the bar chart (volume)
+  // Data for the bar chart volume
   const barChartData = {
     labels: filteredData.map((item) => item.date),
     datasets: [
@@ -94,12 +94,12 @@ const ChartData = () => {
     ],
   };
 
-  // Data for the multi-axis chart
+ 
   const multiAxisChartData = {
-    labels: filteredData.map((item) => item.date), // Dates on the x-axis
+    labels: filteredData.map((item) => item.date), 
     datasets: [
       {
-        type: "line", // Line chart for close prices
+        type: "line", 
         label: "Close Price",
         data: filteredData.map((item) => item.close),
         borderColor: "rgba(75, 192, 192, 1)",
@@ -107,9 +107,9 @@ const ChartData = () => {
         fill: false,
       },
       {
-        type: "bar", // Bar chart for volume
+        type: "bar", 
         label: "Volume",
-        data: filteredData.map((item) => parseFloat(item.volume.replace(/,/g, ""))), // Convert to numbers
+        data: filteredData.map((item) => parseFloat(item.volume.replace(/,/g, ""))), 
         backgroundColor: "rgba(153, 102, 255, 0.6)",
         borderColor: "rgba(153, 102, 255, 1)",
         borderWidth: 1,

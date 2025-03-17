@@ -18,6 +18,16 @@ export default function ShowStockData() {
     });
   }
 
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat('en-US', {
+      month: '2-digit',
+      day: '2-digit',
+      year: 'numeric'
+    }).format(date);
+  };
+
   const deleteStock = (id) => {
     axios.delete(`http://127.0.0.1:5001/delete/${id}`).then(function (response) {
       console.log(response.data);
@@ -38,19 +48,19 @@ export default function ShowStockData() {
       <div className="row justify-content-center">
         <div className="col-12">
           <div className="d-flex justify-content-between align-items-center mb-4">
-          <Link to="/chart" className="btn btn-outline-info">
-              <i className="fas fa-plus"></i> Chart
+          <Link to="/chart" className="btn2 btn2 active no-underline">
+               Chart
             </Link>
 
-            <Link to="/addnewStock" className="btn btn-outline-info">
-              <i className="fas fa-plus"></i> Add New Stock
+            <Link to="/addnewStock" className="btn2 btn2 hover no-underline">
+               Add New Stock
             </Link>
           </div>
 
           <table className="table table-bordered table-hover shadow-lg rounded">
             <thead style={{ background: 'linear-gradient(135deg, #6a11cb, #2575fc)', color: 'white' }}>
               <tr>
-                <th>#</th>
+                <th>ID</th>
                 <th>Trade Date</th>
                 <th>Trade Code</th>
                 <th>High</th>
@@ -65,7 +75,7 @@ export default function ShowStockData() {
               {users.map((item, key) => (
                 <tr key={key} className="table-light hover-table">
                   <td className="text-center p-3">{item.id}</td>
-                  <td className="text-center p-3">{item.date}</td>
+                  <td className="text-center p-3">{formatDate(item.date)}</td>
                   <td className="text-center p-3">{item.trade_code}</td>
                   <td className="text-center p-3">{item.high}</td>
                   <td className="text-center p-3">{item.low}</td>
