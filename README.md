@@ -44,17 +44,22 @@ cd janata_wifi
 ```
 
 ### **Install Dependencies**
+```sh
+npm install vite --save-dev (Required)
+```
 #### **Frontend:**
 ```sh
 npm install react-router-dom
 npm install axios
 npm install chart.js react-chartjs-2
 ```
+(Already included in Packages)
 #### **Backend:**
 ```sh
 pip install Flask
 pip install mysql-connector-python
 pip install pandas
+pip install flask-cors
 ```
 
 ### **Run the Flask Server**
